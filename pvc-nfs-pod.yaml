@@ -38,8 +38,31 @@ spec:
       storage: 7Gi
   volumeMode: Filesystem   # defailut
   
- 
- 
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name:  pvc-nfs-pod
+  namespace: test
+  labels:
+    run: pvc-nfs-pod
 
+spec:
+  volumes:
+  - name: pvc-nfs
+    persistentVolumeClaim:
+      claimName: pvc-nfs   # 指定pvc的名字
+    
+  containers:
+  - name: pvc-nfs-pod
+    image: centos:7
+    command:
+    - /bin/sh
+    - -c 
+    - "for i in {1..1000}; do echo ${i} >> /data/nfs1/exmpale.txt; sleep 1; done"
+    
+    # 挂载pvc到容器的/data/nfs1目录
+    volumeMounts:
+    - name: pvc-nfs
+      mountPath: /data/nfs1 
  
-  
