@@ -46,13 +46,11 @@ metadata:
   namespace: test
   labels:
     run: pvc-nfs-pod
-
 spec:
   volumes:
   - name: pvc-nfs
     persistentVolumeClaim:
       claimName: pvc-nfs   # 指定pvc的名字
-    
   containers:
   - name: pvc-nfs-pod
     image: centos:7
@@ -60,7 +58,6 @@ spec:
     - /bin/sh
     - -c 
     - "for i in {1..1000}; do echo ${i} >> /data/nfs1/exmpale.txt; sleep 1; done"
-    
     # 挂载pvc到容器的/data/nfs1目录
     volumeMounts:
     - name: pvc-nfs
